@@ -1,14 +1,13 @@
 import "./App.css";
 import { useFormSchema } from "./hooks/useFormSchema";
 import { DndContext, type DragEndEvent } from "@dnd-kit/core";
-import type { ControlType } from "./types/form";
 import { Button, Layout, message } from "antd";
-import { v4 as uuidv4 } from "uuid";
 import LeftPanel from "./components/FormBuilder/LeftPanel";
 import DroppableCanvas from "./components/common/DroppableCanvas";
 import RightPanel from "./components/FormBuilder/RightPanel";
 import { useEffect } from "react";
 import { CenterCanvas } from "./components/FormBuilder/CenterCanvas";
+import { ControlRegistry, type ControlType } from "./components/controls";
 
 function App() {
   const { Sider, Content } = Layout;
@@ -27,17 +26,13 @@ function App() {
     if (over === "canvas" && type) {
       const randomSuffix = Math.floor(Math.random() * 100);
       const label = `${type}_${randomSuffix}`;
-      addControl({
-        id: uuidv4(),
-        type,
-        label: label,
-        fieldName: type,
-        serverPayloadKey: label,
-        placeholder: type === "input" ? "Nhập..." : undefined,
-        options: type === "select" ? ["Option 1", "Option 2"] : undefined,
-        required: false,
-      });
-      message.success(`${type} được thêm`);
+       const controlInitial = ControlRegistry[type].defaultSchema();
+       const controlSchemaFinal = {
+          ...controlInitial,
+          label: label,
+          serverPayloadKey: label
+       }
+       addControl(controlSchemaFinal);
     }
   };
 

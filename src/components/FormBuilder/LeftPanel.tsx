@@ -1,19 +1,16 @@
 // Danh sách control có thể kéo thả
 
 import DraggableControl from "../common/DraggableControl";
+import { ControlRegistry } from "../controls";
 
 const LeftPanel: React.FC = () => {
-  const controls = [
-    { type: "input", label: "Input" },
-    { type: "select", label: "Select" },
-    { type: "button", label: "Button" },
-  ];
+  const controlEntries = Object.entries(ControlRegistry);
 
   return (
     <div style={{ padding: 16 }}>
       <h4 style={{ marginBottom: 12 }}>Control list</h4>
-      {controls.map(c => (
-        <DraggableControl key={c.type} type={c.type} label={c.label} />
+      {controlEntries.map(([key, cfg]) => (
+        <DraggableControl key={key} type={key} label={cfg.label} />
       ))}
     </div>
   );
