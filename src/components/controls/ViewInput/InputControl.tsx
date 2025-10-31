@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input } from "antd";
-import type { FormControl } from "../../types/form";
+import type { FormControl } from "../../../types/form";
 
 interface Props {
   control: FormControl;

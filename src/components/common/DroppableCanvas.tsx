@@ -1,5 +1,4 @@
 import { useDroppable } from "@dnd-kit/core";
-
 interface DroppableCanvasProps {
   children?: React.ReactNode;
 }
@@ -12,13 +11,13 @@ const DroppableCanvas: React.FC<DroppableCanvasProps> = ({children}) => {
       ref={setNodeRef}
       style={{
         flex: 1,
-        padding: 16,
-        minHeight: "80vh",
-        border: "2px dashed #d9d9d9",
+        height: '100%',
+        padding: 20,
+        boxShadow: "0px 8px 16px rgba(62, 81, 181, 0.2)",
         borderRadius: 8,
-        background: isOver ? "#e6f7ff" : "#fafafa",
-        transition: "background 0.2s",
-        overflowY: "auto",
+        backgroundColor: isOver ? "#e6f7ff" : "#fffff",
+        transition: "background-color 0.2s",
+        overflow: "hidden",
       }}
     >
       {children}

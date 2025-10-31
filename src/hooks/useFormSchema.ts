@@ -28,6 +28,7 @@ export const useFormSchema = () => {
     return {
         formSchema,
         selectedControlId,
+        setFormSchema,
         setSelectedControlId,
         addControl,
         updateControl,
