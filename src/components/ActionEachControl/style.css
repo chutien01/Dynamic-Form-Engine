@@ -1,0 +1,9 @@
+.wrapper_action_each_control{
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    width: auto;
+    background: #ffffff;
+    display: flex;
+    gap: 5px;
+}

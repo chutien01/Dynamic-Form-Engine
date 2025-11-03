@@ -2,7 +2,7 @@ import type { ControlType } from "../components/controls";
 
 // Kiểu dữ liệu FormSchema, FormControl
 export interface FormControl  {
-    id: string;
+    id?: string;
     type: ControlType;
     label?: string;
     fieldName?: string;

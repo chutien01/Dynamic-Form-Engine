@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Modal, message } from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Modal, message } from "antd";
 import type { FormControl } from "../../types/form";
-import { Editor } from "@monaco-editor/react";
+import { Editor, type OnMount } from "@monaco-editor/react";
 
 interface SchemaModalProps {
   open: boolean;
@@ -11,7 +11,8 @@ interface SchemaModalProps {
 }
 
 const SchemaModal: React.FC<SchemaModalProps> = ({ open, onClose, formSchema, onImport }) => {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(""); 
+  const editorRef = useRef<any>(null);
 
   useEffect(() => {
     if (open) {
@@ -34,22 +35,50 @@ const SchemaModal: React.FC<SchemaModalProps> = ({ open, onClose, formSchema, on
     }
   };
 
+  const handleFormat = async () => {
+    if (editorRef.current) {
+      await editorRef.current.getAction("editor.action.formatDocument").run();
+      message.success("Đã format JSON!");
+    }
+  };
+
+  const handleEditorMount: OnMount = (editor) => {
+    editorRef.current = editor;
+  };
+
   return (
     <Modal
       open={open}
       onCancel={onClose}
       title="Form Schema (JSON)"
       width={800}
-      okText="Import Schema"
-      onOk={handleImport}
-      destroyOnClose
-      bodyStyle={{ height: "70vh", padding: 0 }}
+      okText="Save"
+      // onOk={handleImport}
+      footer={[
+        <Button key="format" onClick={handleFormat}>
+          🧹 Format JSON
+        </Button>,
+        <Button key="cancel" onClick={onClose}>
+          Hủy
+        </Button>,
+        <Button key="import" type="primary" onClick={handleImport}>
+          Import Schema
+        </Button>,
+      ]}
+      destroyOnHidden
+      styles={{
+        body: {
+          height: "70vh",
+          padding: 0
+        }
+      }}
     >
       <Editor
         height="100%"
         defaultLanguage="json"
         value={code}
         onChange={(v) => setCode(v ?? "")}
+        onMount={handleEditorMount}
         options={{
           minimap: { enabled: false },
           wordWrap: "on",

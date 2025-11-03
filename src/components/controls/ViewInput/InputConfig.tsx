@@ -6,7 +6,6 @@ export const InputConfig = {
   label: "Input",
   icon: "InputOutlined",
   defaultSchema: (): FormControl => ({
-    id: crypto.randomUUID(),
     type: "INPUT",
     fieldName: "INPUT",
     label: `INPUT_${Math.floor(Math.random() * 100)}`,

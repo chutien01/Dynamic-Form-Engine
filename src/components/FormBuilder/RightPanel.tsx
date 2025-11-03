@@ -9,7 +9,7 @@ interface RightPanelProps {
 }
 // Cấu hình control được chọn
 const RightPanel: React.FC<RightPanelProps> = ({ formSchema, selectedControlId, updateControl }) => {
-  const selected = formSchema.find(c => c.id === selectedControlId);
+  const selected = formSchema.find(c => c.serverPayloadKey === selectedControlId);
   if (!selected) return <div style={{ padding: 16 }}>Chọn control để cấu hình</div>;
 
   const config = ControlRegistry[selected.type];
@@ -19,7 +19,7 @@ const RightPanel: React.FC<RightPanelProps> = ({ formSchema, selectedControlId, 
       <Form layout="vertical">
         {config.settings.map(setting => {
           const value = selected[setting.key];
-          const onChange = (val: any) => updateControl(selected.id, { [setting.key]: val });
+          const onChange = (val: any) => updateControl(selected.serverPayloadKey, { [setting.key]: val });
 
           switch (setting.component) {
             case "switch":
