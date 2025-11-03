@@ -32,7 +32,7 @@ const FormPreviewModal: React.FC<FormPreviewModalProps> = ({ open, onClose, form
             >
                 {formSchema.map((control) => (
                     <FormControlRenderer
-                        key={control.id}
+                        key={control.serverPayloadKey}
                         control={control}
                         preview={true}
                     />

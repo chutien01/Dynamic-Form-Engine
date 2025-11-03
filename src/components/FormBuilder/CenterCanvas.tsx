@@ -2,28 +2,32 @@ import React, { useState } from "react";
 import { Button, Card, Divider, Tooltip } from "antd";
 import type { FormControl } from "../../types/form";
 import { FormControlRenderer } from "../renderer/FormControlRenderer";
-import { ArrowsAltOutlined, DeleteOutlined, ExpandOutlined } from "@ant-design/icons";
+import { ArrowsAltOutlined, ExpandOutlined } from "@ant-design/icons";
 import FormPreviewModal from "./FormPreviewModal";
 import "./style.css";
 import SchemaModal from "../SchemaModal/SchemaModal";
-import { useFormSchema } from "../../hooks/useFormSchema";
+import CardExtraAction from "../ActionEachControl/CardExtraAction";
 
 interface Props {
   formSchema: FormControl[];
   selectedControlId: string | null;
+  setFormSchema: (schema: FormControl[]) => void;
   setSelectedControlId: (id: string) => void;
-  removeControl: (id: string) => void;
+  removeControl: (serverPayloadKey: string) => void;
+  duplicatedControl: (serverPayloadKey: string) => void;
 }
 
 export const CenterCanvas: React.FC<Props> = ({
   formSchema,
   selectedControlId,
+  setFormSchema,
   setSelectedControlId,
   removeControl,
+  duplicatedControl
 }) => {
   const [preview, setPreview] = useState(false);
   const [schemaOpen, setSchemaOpen] = useState(false);
-  const { setFormSchema } = useFormSchema();
+  // const { setFormSchema } = useFormSchema();
 
   const handleImportSchema = (newSchema: FormControl[]) => {
     // cập nhật schema từ modal
@@ -55,26 +59,23 @@ export const CenterCanvas: React.FC<Props> = ({
           ) : (
             formSchema.map((control) => (
               <Card
-                key={control.id}
+                key={control.serverPayloadKey}
                 size="small"
                 style={{
                   marginBottom: 8,
                   cursor: "pointer",
                   border:
-                    control.id === selectedControlId
+                    control.serverPayloadKey === selectedControlId
                       ? "2px solid #1677ff"
                       : "1px solid #e0e0e0",
+                  position: 'relative'
                 }}
-                onClick={() => setSelectedControlId(control.id)}
+                onClick={() => setSelectedControlId(control.serverPayloadKey)}
                 extra={
-                  <a
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeControl(control.id);
-                    }}
-                  >
-                    <DeleteOutlined style={{ color: "red", fontSize: "20px" }} />
-                  </a>
+                  <CardExtraAction
+                    onDelete={() => removeControl(control.serverPayloadKey)}
+                    duplicatedControl={() => duplicatedControl(control.serverPayloadKey)}
+                  />
                 }
               >
                 <FormControlRenderer control={control} preview={preview} />

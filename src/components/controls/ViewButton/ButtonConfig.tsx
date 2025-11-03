@@ -5,7 +5,6 @@ export const ButtonConfig = {
   type: "BUTTON",
   label: "Button",
   defaultSchema: (): FormControl => ({
-    id: crypto.randomUUID(),
     type: "BUTTON",
     label: `BUTTON_${Math.floor(Math.random() * 100)}`,
     serverPayloadKey: "",

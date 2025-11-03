@@ -5,7 +5,6 @@ export const SelectConfig = {
   type: "SELECT",
   label: "Select",
   defaultSchema: (): FormControl => ({
-    id: crypto.randomUUID(),
     type: "SELECT",
     label: `SELECT_${Math.floor(Math.random() * 100)}`,
     serverPayloadKey: "",
